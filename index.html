@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%231E3B2A'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-size='34' fill='%23E2D7BA'%3EL%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Weekly worksheet for the Lord Abbett news round up.">
+<title>Lord Abbett Weekly News Round Up — Worksheet</title>
+<style>
+  :root {
+    --wall: #E4E8E0; --paper: #FBFAF6; --card: #EEF2EA;
+    --forest: #1E3B2A; --forest-mid: #2E5840; --green: #4B7659; --green-soft: #A8BEA9; --green-wash: #DCE7D9;
+    --gold: #B0975C; --gold-soft: #E2D7BA;
+    --line: #D5DBCF; --ink: #24302A; --muted: #5C6960;
+    color-scheme: light; box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { background: var(--wall); scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body { margin: 0; background: var(--wall); color: var(--ink); font-family: Georgia, "Times New Roman", serif; font-size: 11pt; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 18px 12px 6px; }
+  .btn { font: inherit; font-size: 10pt; cursor: pointer; border-radius: 3px; padding: 6px 18px; border: 1px solid var(--forest-mid); background: var(--forest-mid); color: var(--paper); text-decoration: none; display: inline-block; }
+  .btn.ghost { background: transparent; color: var(--forest-mid); }
+  .btn.sm { font-size: 9pt; padding: 3px 14px; }
+  .btn:focus-visible, input:focus-visible, .write:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .book { padding: 12px 0 48px; }
+  .page { width: 8.5in; height: 11in; margin: 0 auto 28px; background: var(--paper); border: 1px solid var(--line); position: relative; display: flex; flex-direction: column; padding: .85in .9in .5in; overflow: hidden; }
+  .page::before { content: ""; position: absolute; inset: .32in; border: 1px solid var(--gold-soft); border-radius: 2px; pointer-events: none; }
+  .deco { position: absolute; top: .44in; right: .5in; width: 56px; height: 80px; pointer-events: none; }
+  .pg-body { flex: 1; overflow: hidden; position: relative; }
+  .pg-foot { display: flex; justify-content: center; align-items: center; gap: 14px; padding-top: 10px; color: var(--muted); font-size: 9pt; font-style: italic; }
+  .pg-foot .rule { flex: 1; height: 1px; background: var(--line); }
+  .pg-num { font-style: normal; font-size: 12pt; color: var(--forest); display: inline-grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--green-soft); border-radius: 3px; }
+
+  .kicker { color: var(--green); letter-spacing: .08em; font-size: 9pt; margin: 0 0 4px; }
+  h1 { font-style: italic; font-weight: normal; color: var(--forest); font-size: 44pt; line-height: 1.05; margin: 0 0 14px; }
+  h2.pt { font-style: italic; font-weight: normal; color: var(--forest); font-size: 34pt; margin: 0 0 6px; line-height: 1.15; }
+  .under { display: block; width: 180px; height: 14px; margin: 0 0 10px; }
+  .intro { color: var(--muted); margin: 0 0 16px; max-width: 38em; font-size: 10.5pt; }
+  .sub { color: var(--muted); font-size: 13pt; margin: 0; max-width: 28em; }
+  .vine { display: block; width: 100%; height: 30px; margin: 24px 0 18px; }
+
+  .emblem { display: flex; align-items: center; gap: 14px; margin: 6px 0 34px; }
+  .emblem svg { width: 64px; height: 64px; flex: none; }
+  .emblem .wm { color: var(--forest); font-size: 15pt; letter-spacing: .14em; line-height: 1.1; }
+  .emblem .wm small { display: block; font-size: 8pt; letter-spacing: .12em; color: var(--gold); margin-top: 3px; }
+
+  .toc { list-style: none; padding: 0; margin: 10px 0 0; }
+  .toc li { display: flex; align-items: baseline; gap: 10px; padding: 4px 0; font-size: 13pt; color: var(--forest); }
+  .toc .dots { flex: 1; border-bottom: 1.5px dotted var(--line); transform: translateY(-5px); }
+  .toc .n { color: var(--green); }
+  .datebox { margin-top: 30px; display: flex; align-items: center; gap: 12px; color: var(--forest); font-size: 12pt; }
+
+  .badge { width: 34px; height: 34px; flex: none; display: grid; place-items: center; font-size: 11pt; color: var(--paper); background: var(--forest-mid); border-radius: 3px; }
+  .badge.site { width: auto; min-width: 34px; padding: 0 7px; font-size: 9.5pt; letter-spacing: .04em; }
+  span.ck { padding: 3px 12px; }
+  .box:has(.write-wrap) { padding-bottom: 20px; }
+  .sitehead { display: flex; align-items: center; gap: 14px; margin: 2px 0 0; }
+  .sitehead .badge { height: 40px; min-width: 44px; font-size: 11pt; }
+  .compiled { margin-top: 8px; border: 1px solid var(--line); background: var(--paper); border-radius: 3px; }
+  .compiled-head { display: flex; justify-content: space-between; padding: 6px 12px; border-bottom: 1px solid var(--line); color: var(--forest); font-size: 10pt; font-weight: bold; }
+  .compiled-head span:last-child { color: var(--muted); font-weight: normal; }
+  .compiled-body { margin: 0; padding: 8px 12px; max-height: 150px; overflow: auto; font-family: Georgia, serif; font-size: 9.5pt; line-height: 1.5; color: var(--forest-mid); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .compiled-body:empty::before { content: "Nothing yet. Anything you write on the site pages shows up here."; color: var(--muted); font-style: italic; }
+  .sitelink { margin-left: auto; font-size: 10pt; color: var(--forest-mid); border: 1px solid var(--forest-mid); border-radius: 3px; padding: 4px 12px; text-decoration: none; white-space: nowrap; }
+  .sitelink:hover { background: var(--forest-mid); color: var(--paper); }
+  .sitelink:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  @media print { .sitelink { display: none; } }
+  .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--forest); color: var(--paper); padding: 8px 18px; border-radius: 3px; font-size: 10pt; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 20; }
+  .toast.show { opacity: 1; }
+  dialog#pastDlg { width: min(640px, 92vw); max-height: 82vh; border: 1px solid var(--line); border-top: 4px solid var(--forest-mid); border-radius: 3px; padding: 22px 26px; background: var(--paper); color: var(--ink); font-family: Georgia, serif; }
+  dialog#pastDlg::backdrop { background: rgba(30,59,42,.35); }
+  .dlg-head { display: flex; align-items: center; justify-content: space-between; }
+  .dlg-head h2 { margin: 0; font-style: italic; font-weight: normal; color: var(--forest); font-size: 24pt; }
+  .dlg-note { color: var(--muted); font-size: 9.5pt; margin: 4px 0 14px; }
+  .wk { background: var(--card); border-left: 4px solid var(--forest-mid); border-radius: 3px; padding: 12px 16px; margin-bottom: 10px; }
+  .wk-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .wk-top b { color: var(--forest); font-size: 14pt; }
+  .wk-top span { color: var(--muted); font-size: 9pt; }
+  .wk h4 { margin: 8px 0 2px; font-size: 10pt; color: var(--green); font-weight: normal; letter-spacing: .04em; }
+  .wk ol { margin: 0; padding-left: 1.4em; font-size: 10pt; }
+  .wk .empty { color: var(--muted); font-style: italic; font-size: 10pt; }
+  .wk-btns { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .past-empty { color: var(--muted); font-style: italic; }
+  @media print { .toast, dialog { display: none !important; } }
+  .row-btns { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .row-btns .subject { margin: 0; }
+  [hidden] { display: none !important; }
+  .mypicks { max-height: 200px !important; line-height: 1.4; margin: 8px 0 8px 46px; border: 1px solid var(--line); background: var(--paper); border-radius: 3px; max-height: none; }
+  .mypicks:empty::before { content: "Your picks from pages 7 and 9 show up here."; }
+  .box { background: var(--card); border-radius: 3px; border-left: 4px solid var(--forest-mid); padding: 14px 18px 14px; margin: 0 0 12px; }
+  .box-head { display: flex; align-items: center; gap: 12px; margin: 0 0 8px; }
+  .box-head b { color: var(--forest); font-size: 16pt; font-weight: bold; line-height: 1.2; }
+  .box p { margin: 0 0 6px; }
+  .box .note { color: var(--muted); font-size: 9.5pt; }
+
+  .checks { display: flex; flex-wrap: wrap; gap: 6px 8px; margin-left: 46px; }
+  .checks.stack { flex-direction: column; align-items: flex-start; }
+  label.ck, span.ck { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: 1px solid var(--line); background: var(--paper); border-radius: 3px; padding: 3px 14px 3px 5px; font-size: 10.5pt; }
+  label.ck input { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; margin: 0; border: 1.5px solid var(--green-soft); border-radius: 2px; background: var(--paper); display: grid; place-items: center; cursor: pointer; }
+  label.ck input:checked { background: var(--green); border-color: var(--green); }
+  label.ck input:checked::after { content: ""; width: 5px; height: 9px; border: solid var(--paper); border-width: 0 2px 2px 0; transform: translateY(-1px) rotate(45deg); }
+  label.ck:has(input:checked) { border-color: var(--green-soft); background: var(--green-wash); }
+  .indent, .box .indent, .box p.indent, .callout.indent { margin-left: 46px; }
+
+  .tgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; }
+  .tcard { background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 9px 14px 8px; }
+  .tcard .tname { color: var(--forest); font-size: 13pt; font-weight: bold; }
+  .tcard .tw { color: var(--green); margin-top: 2px; font-size: 10pt; line-height: 1.4; }
+  .tcard.gold { border-color: var(--gold-soft); background: #F7F2E4; }
+  .tcard.gold .tname { color: #7A6431; }
+
+  .callout { background: var(--forest); border-radius: 3px; padding: 16px 22px; color: #EEF1E8; margin: 0 0 12px; }
+  .callout .ct { letter-spacing: .06em; color: #B9CBB6; margin: 0 0 6px; font-size: 9.5pt; }
+  .callout p.q { font-style: italic; font-size: 11.5pt; margin: 0 0 10px; line-height: 1.5; }
+  .callout .btn { background: var(--gold); border-color: var(--gold); }
+
+  .fillrow { display: flex; align-items: baseline; gap: 10px; margin: 0 0 6px; }
+  .fillrow .n { color: var(--green); width: 22px; height: 22px; flex: none; display: inline-grid; place-items: center; border: 1px solid var(--green-soft); border-radius: 2px; font-size: 9.5pt; }
+  input.fill { font-family: Georgia, serif; font-style: italic; font-size: 11pt; color: var(--forest-mid); background: transparent; border: 0; border-bottom: 1.5px solid var(--gold); padding: 1px 4px; outline: none; border-radius: 0; flex: 1; min-width: 0; }
+  input.fill:focus { background: var(--green-wash); }
+  input.fill.d { flex: none; width: 11em; }
+
+  .write-wrap { position: relative; }
+  .rules { position: absolute; inset: 0; display: grid; grid-auto-rows: 2em; pointer-events: none; }
+  .rules i { border-bottom: 1.5px solid var(--gold-soft); }
+  .write { position: relative; font-style: italic; color: var(--forest-mid); font-size: 10.5pt; line-height: 2em; padding: 0 4px; outline: none; overflow: hidden; word-wrap: break-word; white-space: pre-wrap; }
+  .write:focus { background-color: rgba(220,231,217,.45); }
+
+  .example { border-left: 2px solid var(--gold); padding: 4px 0 4px 14px; margin: 10px 0 0 46px; font-size: 10pt; color: var(--muted); }
+  .example b { color: var(--forest); font-weight: bold; }
+
+  .subject { background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 4px 16px; display: inline-block; color: var(--forest); margin-right: 8px; }
+  .recips { display: grid; grid-template-columns: 5em 1fr; gap: 3px 10px; margin: 4px 0 8px; font-size: 10.5pt; }
+  .recips span:nth-child(odd) { color: var(--forest); font-weight: bold; }
+
+  .kw-list { margin: 0; padding-left: 1.2em; font-size: 10.5pt; }
+  .kw-list li { margin-bottom: 3px; }
+  .kw-list b { color: var(--forest); }
+
+  @media screen and (max-width: 860px) { .book { zoom: var(--z, 1); } }
+  @media print {
+    @page { size: letter; margin: 0; }
+    html, body { background: #fff; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .toolbar, .no-print { display: none !important; }
+    .book { padding: 0; zoom: 1 !important; }
+    .page { margin: 0; border: 0; background: #fff; break-after: page; }
+    input.fill, .write { color: transparent !important; background: transparent !important; }
+    label.ck input:checked { background: var(--paper); border-color: var(--green-soft); }
+    label.ck input:checked::after { display: none; }
+    label.ck:has(input:checked) { background: var(--paper); border-color: var(--line); }
+  }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button class="btn" id="saveWeek">Save this week and start fresh</button>
+  <button class="btn ghost" id="openPast">Past weeks</button>
+  <button class="btn ghost" id="print">Print blank copy</button>
+  <button class="btn ghost" id="resetAll">Clear without saving</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="pastDlg" aria-labelledby="pastTitle">
+  <div class="dlg-head"><h2 id="pastTitle">Past weeks</h2><button class="btn ghost sm" id="closePast">Close</button></div>
+  <p class="dlg-note">Saved in this browser only. Anyone you share the worksheet with starts blank and has their own list.</p>
+  <div id="pastList"></div>
+</dialog>
+
+<main class="book">
+<section class="page">
+  <div class="pg-body">
+    <div class="emblem">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="none" stroke="#B0975C" stroke-width="1.2"/>
+        <g fill="none" stroke="#2E5840" stroke-width="1.3" stroke-linecap="round">
+          <path d="M31 53 C17 50 10 38 14 14"/><path d="M33 53 C47 50 54 38 50 14"/>
+        </g>
+        <g fill="#4B7659">
+          <ellipse cx="14.5" cy="17" rx="1.9" ry="4.2" transform="rotate(8 14.5 17)"/>
+          <ellipse cx="13" cy="25" rx="1.9" ry="4.2" transform="rotate(-8 13 25)"/>
+          <ellipse cx="14" cy="33" rx="1.9" ry="4.2" transform="rotate(-28 14 33)"/>
+          <ellipse cx="17.5" cy="40.5" rx="1.9" ry="4.2" transform="rotate(-48 17.5 40.5)"/>
+          <ellipse cx="23" cy="47" rx="1.9" ry="4.2" transform="rotate(-66 23 47)"/>
+          <ellipse cx="49.5" cy="17" rx="1.9" ry="4.2" transform="rotate(-8 49.5 17)"/>
+          <ellipse cx="51" cy="25" rx="1.9" ry="4.2" transform="rotate(8 51 25)"/>
+          <ellipse cx="50" cy="33" rx="1.9" ry="4.2" transform="rotate(28 50 33)"/>
+          <ellipse cx="46.5" cy="40.5" rx="1.9" ry="4.2" transform="rotate(48 46.5 40.5)"/>
+          <ellipse cx="41" cy="47" rx="1.9" ry="4.2" transform="rotate(66 41 47)"/>
+        </g>
+        <text x="32" y="38" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#1E3B2A">L</text>
+      </svg>
+      <div class="wm">LAUREL STRATEGIES<small>STRATEGIC COUNSELORS</small></div>
+    </div>
+    <p class="kicker">weekly worksheet</p>
+    <h1>Lord Abbett<br>Weekly News Round Up</h1>
+    <p class="sub">Find the week's biggest stories, pick the best, and send them out.</p>
+    <svg class="vine" viewBox="0 0 800 30" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 18 C150 8 300 6 420 12 S640 26 800 16" stroke="#C9BE9E" stroke-width="1.4" fill="none"/>
+      <circle cx="100" cy="13" r="4" fill="#A8BEA9"/><circle cx="300" cy="21" r="4" fill="#4B7659"/>
+      <circle cx="520" cy="8" r="4" fill="#B0975C"/><circle cx="700" cy="20" r="4" fill="#A8BEA9"/>
+    </svg>
+    <p class="kicker">in this worksheet</p>
+    <ul class="toc">
+      <li><span>Part 2: Industry news</span><span class="dots"></span><span class="n">2</span></li>
+      <li><span>Bloomberg, FT, WSJ, NYT</span><span class="dots"></span><span class="n">3</span></li>
+      <li><span>Pick your 4</span><span class="dots"></span><span class="n">7</span></li>
+      <li><span>Part 3: Geopolitical news</span><span class="dots"></span><span class="n">8</span></li>
+      <li><span>Share with your coworker</span><span class="dots"></span><span class="n">10</span></li>
+      <li><span>Part 4: Finalizing</span><span class="dots"></span><span class="n">11</span></li>
+      <li><span>P.S. More key words</span><span class="dots"></span><span class="n">12</span></li>
+    </ul>
+    <div class="datebox"><span>Week of</span><input class="fill d" type="date" id="weekDate" aria-label="Week of"></div>
+  </div>
+  <footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">1</span><span class="rule"></span><span>Laurel Strategies</span></footer>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page"><svg class="deco" viewBox="0 0 56 80" aria-hidden="true"><path d="M30 78 C26 56 26 34 33 8" stroke="#6E8F76" stroke-width="1.5" fill="none"/><g fill="#A8BEA9"><path d="M32 22 C23 19 19 10 21 3 C28 7 32 14 32 22Z"/><path d="M32 34 C41 31 46 24 44 15 C37 19 33 26 32 34Z"/><path d="M29 48 C20 45 15 38 16 29 C24 33 28 40 29 48Z"/><path d="M29 62 C38 59 42 52 41 43 C34 47 30 54 29 62Z"/></g></svg><div class="pg-body"><p class="kicker">part 2</p><h2 class="pt">Industry news</h2><svg class="under" viewBox="0 0 180 14" aria-hidden="true"><path d="M2 8 C40 2 70 12 110 7 S160 4 178 8" stroke="#B0975C" stroke-width="1.4" fill="none"/><circle cx="60" cy="6" r="3" fill="#A8BEA9"/><circle cx="130" cy="6" r="3" fill="#4B7659"/></svg>
+<p class="intro">Goal: 4 stories on the week's most significant developments in asset management, mutual funds, or capital markets.</p>
+<div class="box"><div class="box-head"><span class="badge">1</span><b>How each site section works</b></div>
+<p class="indent">Each site gets its own page, with a section for each search. Search the phrase, check it off, then write down anything promising.</p></div>
+<div class="box">
+      <div class="box-head"><span class="badge">!</span><b>Scan headlines for these words</b></div>
+      <div class="tgrid indent">
+        <div class="tcard"><div class="tname">Asset management</div><div class="tw">acquire/sale, outflows, redemptions, private credit</div></div>
+        <div class="tcard"><div class="tname">Mutual funds</div><div class="tw">active vs. passive, ETF, fees, outflows</div></div>
+        <div class="tcard"><div class="tname">Capital markets</div><div class="tw">Treasury yields, Fed, IPO, bond sale</div></div>
+        <div class="tcard gold"><div class="tname">Keeper signals</div><div class="tw">record, biggest, a dollar figure</div></div>
+      </div>
+      <p class="note indent" style="margin-top:8px">Stuck? The full word list is on page 12.</p>
+    
+<div class="box"><div class="box-head"><span class="badge">2</span><b>Then narrow it down</b></div>
+<p class="indent">Once all four sites are done, pick your 4 on page 7.</p></div></div></div><footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">2</span><span class="rule"></span><span>Laurel Strategies</span></footer></section>
+<section class="page"><svg class="deco" viewBox="0 0 56 80" aria-hidden="true"><path d="M30 78 C26 56 26 34 33 8" stroke="#6E8F76" stroke-width="1.5" fill="none"/><g fill="#A8BEA9"><path d="M32 22 C23 19 19 10 21 3 C28 7 32 14 32 22Z"/><path d="M32 34 C41 31 46 24 44 15 C37 19 33 26 32 34Z"/><path d="M29 48 C20 45 15 38 16 29 C24 33 28 40 29 48Z"/><path d="M29 62 C38 59 42 52 41 43 C34 47 30 54 29 62Z"/></g></svg><div class="pg-body"><p class="kicker">part 2, by site</p>
+<div class="sitehead"><span class="badge site">BB</span><h2 class="pt" style="margin:0">Bloomberg</h2><a class="sitelink" href="https://www.bloomberg.com/search" target="_blank" rel="noopener">Open search</a></div>
+<p class="intro" style="margin:6px 0 10px">Set the time frame to the past week. Write the headline and link for anything promising.</p><div class="box"><div class="box-head"><span class="badge">A</span><b>"asset management"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-bbg-am">Searched</label></div>
+<p class="indent note">Look for: acquire/sale, outflows, redemptions, private credit</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-bbg-am" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div><div class="box"><div class="box-head"><span class="badge">B</span><b>"mutual funds"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-bbg-mf">Searched</label></div>
+<p class="indent note">Look for: active vs. passive, ETF, fees, outflows</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-bbg-mf" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div><div class="box"><div class="box-head"><span class="badge">C</span><b>"capital markets"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-bbg-cm">Searched</label></div>
+<p class="indent note">Look for: Treasury yields, Fed, IPO, bond sale</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-bbg-cm" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div></div><footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">3</span><span class="rule"></span><span>Laurel Strategies</span></footer></section>
+<section class="page"><svg class="deco" viewBox="0 0 56 80" aria-hidden="true"><path d="M30 78 C26 56 26 34 33 8" stroke="#6E8F76" stroke-width="1.5" fill="none"/><g fill="#A8BEA9"><path d="M32 22 C23 19 19 10 21 3 C28 7 32 14 32 22Z"/><path d="M32 34 C41 31 46 24 44 15 C37 19 33 26 32 34Z"/><path d="M29 48 C20 45 15 38 16 29 C24 33 28 40 29 48Z"/></g></svg><div class="pg-body"><p class="kicker">part 2, by site</p>
+<div class="sitehead"><span class="badge site">FT</span><h2 class="pt" style="margin:0">Financial Times</h2><a class="sitelink" href="https://www.ft.com/search" target="_blank" rel="noopener">Open search</a></div>
+<p class="intro" style="margin:6px 0 10px">Set the time frame to the past week. Write the headline and link for anything promising.</p><div class="box"><div class="box-head"><span class="badge">A</span><b>"asset management"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-ft-am">Searched</label></div>
+<p class="indent note">Look for: acquire/sale, outflows, redemptions, private credit</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-ft-am" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div><div class="box"><div class="box-head"><span class="badge">B</span><b>"mutual funds"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-ft-mf">Searched</label></div>
+<p class="indent note">Look for: active vs. passive, ETF, fees, outflows</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-ft-mf" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div><div class="box"><div class="box-head"><span class="badge">C</span><b>"capital markets"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-ft-cm">Searched</label></div>
+<p class="indent note">Look for: Treasury yields, Fed, IPO, bond sale</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-ft-cm" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div></div><footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">4</span><span class="rule"></span><span>Laurel Strategies</span></footer></section>
+<section class="page"><svg class="deco" viewBox="0 0 56 80" aria-hidden="true"><path d="M30 78 C26 56 26 34 33 8" stroke="#6E8F76" stroke-width="1.5" fill="none"/><g fill="#A8BEA9"><path d="M32 22 C23 19 19 10 21 3 C28 7 32 14 32 22Z"/><path d="M32 34 C41 31 46 24 44 15 C37 19 33 26 32 34Z"/><path d="M29 48 C20 45 15 38 16 29 C24 33 28 40 29 48Z"/><path d="M29 62 C38 59 42 52 41 43 C34 47 30 54 29 62Z"/></g></svg><div class="pg-body"><p class="kicker">part 2, by site</p>
+<div class="sitehead"><span class="badge site">WSJ</span><h2 class="pt" style="margin:0">Wall Street Journal</h2><a class="sitelink" href="https://www.wsj.com/search" target="_blank" rel="noopener">Open search</a></div>
+<p class="intro" style="margin:6px 0 10px">Set the time frame to the past week. Write the headline and link for anything promising.</p><div class="box"><div class="box-head"><span class="badge">A</span><b>"asset management"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-wsj-am">Searched</label></div>
+<p class="indent note">Look for: acquire/sale, outflows, redemptions, private credit</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-wsj-am" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div><div class="box"><div class="box-head"><span class="badge">B</span><b>"mutual funds"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-wsj-mf">Searched</label></div>
+<p class="indent note">Look for: active vs. passive, ETF, fees, outflows</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-wsj-mf" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div><div class="box"><div class="box-head"><span class="badge">C</span><b>"capital markets"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-wsj-cm">Searched</label></div>
+<p class="indent note">Look for: Treasury yields, Fed, IPO, bond sale</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-wsj-cm" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div></div><footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">5</span><span class="rule"></span><span>Laurel Strategies</span></footer></section>
+<section class="page"><svg class="deco" viewBox="0 0 56 80" aria-hidden="true"><path d="M30 78 C26 56 26 34 33 8" stroke="#6E8F76" stroke-width="1.5" fill="none"/><g fill="#A8BEA9"><path d="M32 22 C23 19 19 10 21 3 C28 7 32 14 32 22Z"/><path d="M32 34 C41 31 46 24 44 15 C37 19 33 26 32 34Z"/><path d="M29 48 C20 45 15 38 16 29 C24 33 28 40 29 48Z"/></g></svg><div class="pg-body"><p class="kicker">part 2, by site</p>
+<div class="sitehead"><span class="badge site">NYT</span><h2 class="pt" style="margin:0">New York Times</h2><a class="sitelink" href="https://www.nytimes.com/search" target="_blank" rel="noopener">Open search</a></div>
+<p class="intro" style="margin:6px 0 10px">Set the time frame to the past week. Write the headline and link for anything promising.</p><div class="box"><div class="box-head"><span class="badge">A</span><b>"asset management"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-nyt-am">Searched</label></div>
+<p class="indent note">Look for: acquire/sale, outflows, redemptions, private credit</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-nyt-am" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div><div class="box"><div class="box-head"><span class="badge">B</span><b>"mutual funds"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-nyt-mf">Searched</label></div>
+<p class="indent note">Look for: active vs. passive, ETF, fees, outflows</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-nyt-mf" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div><div class="box"><div class="box-head"><span class="badge">C</span><b>"capital markets"</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-nyt-cm">Searched</label></div>
+<p class="indent note">Look for: Treasury yields, Fed, IPO, bond sale</p>
+<div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i><i></i><i></i></div><div class="write" id="w-nyt-cm" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:10em"></div></div></div></div><footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">6</span><span class="rule"></span><span>Laurel Strategies</span></footer></section>
+<section class="page"><div class="pg-body"><p class="kicker">part 2, narrow it down</p><h2 class="pt">Pick your 4</h2><svg class="under" viewBox="0 0 180 14" aria-hidden="true"><path d="M2 8 C40 2 70 12 110 7 S160 4 178 8" stroke="#B0975C" stroke-width="1.4" fill="none"/><circle cx="60" cy="6" r="3" fill="#A8BEA9"/><circle cx="130" cy="6" r="3" fill="#4B7659"/></svg><p class="intro">Pull the strongest candidates from all four sites.</p><div class="box">
+      <div class="box-head"><span class="badge">3</span><b>Unsure? Run it through AI</b></div>
+      <p class="indent note">Paste your list into Claude, ChatGPT, or Laurel's Box AI. Try more than one and compare.</p>
+      <div class="compiled indent no-print">
+        <div class="compiled-head"><span>Your full list, pulled from pages 3–6</span><span id="compiledCount"></span></div>
+        <pre id="compiledList" class="compiled-body"></pre>
+      </div>
+      <div class="callout indent" style="margin-top:8px">
+        <p class="ct">paste this with your list</p>
+        <p class="q" id="aiPrompt">"Out of the following list of articles, which 4 news stories are most relevant for Lord Abbett and Lord Abbett's leadership team. They care about the most significant development in asset management, mutual funds, or capital markets of the week"</p>
+        <button class="btn sm no-print" data-copy="aiPrompt">Copy prompt</button> <button class="btn sm no-print" id="copyAll">Copy prompt + full list</button>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-head"><span class="badge">4</span><b>Pick your 4 and format them</b></div>
+      <div class="indent">
+        <div class="fillrow"><span class="n">1</span><input class="fill" id="i-p2-1" aria-label="Pick 1" autocomplete="off"></div>
+        <div class="fillrow"><span class="n">2</span><input class="fill" id="i-p2-2" aria-label="Pick 2" autocomplete="off"></div>
+        <div class="fillrow"><span class="n">3</span><input class="fill" id="i-p2-3" aria-label="Pick 3" autocomplete="off"></div>
+        <div class="fillrow"><span class="n">4</span><input class="fill" id="i-p2-4" aria-label="Pick 4" autocomplete="off"></div>
+      </div>
+      <div class="example"><b>The Financial Times: Former Wells Fargo asset manager Allspring explores $4bn sale</b><br>September 18, 2026 | By Ivan Levingston and Antoine Gara<br>Then 3–5 paragraphs from the article.</div>
+    </div></div><footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">7</span><span class="rule"></span><span>Laurel Strategies</span></footer></section>
+<section class="page"><svg class="deco" viewBox="0 0 56 80" aria-hidden="true"><path d="M30 78 C26 56 26 34 33 8" stroke="#6E8F76" stroke-width="1.5" fill="none"/><g fill="#A8BEA9"><path d="M32 22 C23 19 19 10 21 3 C28 7 32 14 32 22Z"/><path d="M32 34 C41 31 46 24 44 15 C37 19 33 26 32 34Z"/><path d="M29 48 C20 45 15 38 16 29 C24 33 28 40 29 48Z"/><path d="M29 62 C38 59 42 52 41 43 C34 47 30 54 29 62Z"/></g></svg><div class="pg-body"><p class="kicker">part 3</p><h2 class="pt">Geopolitical news</h2><svg class="under" viewBox="0 0 180 14" aria-hidden="true"><path d="M2 8 C40 2 70 12 110 7 S160 4 178 8" stroke="#B0975C" stroke-width="1.4" fill="none"/><circle cx="60" cy="6" r="3" fill="#A8BEA9"/><circle cx="130" cy="6" r="3" fill="#4B7659"/></svg><p class="intro">Goal: about 2 high-level stories. Click through each site's World, Geopolitics, and Trade tabs.</p><div class="box"><div class="box-head"><span class="badge">!</span><b>What Lord Abbett cares about most</b></div>
+<div class="checks"><span class="ck">US–China relations</span><span class="ck">Trade and tariffs</span><span class="ck">Wars and military conflicts</span><span class="ck">The Middle East</span><span class="ck">Taiwan and the Indo-Pacific</span></div></div><div class="box"><div class="box-head"><span class="badge site">BB</span><b>Bloomberg</b><a class="sitelink" href="https://www.bloomberg.com" target="_blank" rel="noopener">Open site</a></div><div class="checks"><label class="ck"><input type="checkbox" id="c-gbbg-0">World</label><label class="ck"><input type="checkbox" id="c-gbbg-1">Geopolitics</label><label class="ck"><input type="checkbox" id="c-gbbg-2">Trade</label></div><p class="indent note" style="margin-top:8px">Possible stories: headline and link</p><div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i></div><div class="write" id="w-gbbg" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:6em"></div></div></div><div class="box"><div class="box-head"><span class="badge site">FT</span><b>Financial Times</b><a class="sitelink" href="https://www.ft.com/world" target="_blank" rel="noopener">Open site</a></div><div class="checks"><label class="ck"><input type="checkbox" id="c-gft-0">World</label><label class="ck"><input type="checkbox" id="c-gft-1">Geopolitics</label><label class="ck"><input type="checkbox" id="c-gft-2">Trade</label></div><p class="indent note" style="margin-top:8px">Possible stories: headline and link</p><div class="write-wrap indent"><div class="rules"><i></i><i></i><i></i></div><div class="write" id="w-gft" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:6em"></div></div></div></div><footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">8</span><span class="rule"></span><span>Laurel Strategies</span></footer></section>
+<section class="page"><svg class="deco" viewBox="0 0 56 80" aria-hidden="true" fill="none" stroke-linecap="round"><path d="M34 78 C32 58 29 34 37 6" stroke="#8C7A4E" stroke-width="1.6"/><path d="M36 26 C29 21 24 14 19 7" stroke="#B0975C" stroke-width="1.6"/><path d="M35 38 C43 33 48 26 52 17" stroke="#B0975C" stroke-width="1.5"/><path d="M33 50 C26 45 21 39 16 31" stroke="#CDBB8E" stroke-width="1.4"/><path d="M33 62 C41 57 45 51 49 44" stroke="#CDBB8E" stroke-width="1.3"/></svg><div class="pg-body"><p class="kicker">part 3, by site</p><div class="box"><div class="box-head"><span class="badge site">WSJ</span><b>Wall Street Journal</b><a class="sitelink" href="https://www.wsj.com/world" target="_blank" rel="noopener">Open site</a></div><div class="checks"><label class="ck"><input type="checkbox" id="c-gwsj-0">World</label><label class="ck"><input type="checkbox" id="c-gwsj-1">Geopolitics</label><label class="ck"><input type="checkbox" id="c-gwsj-2">Trade</label></div><p class="indent note" style="margin-top:8px">Possible stories: headline and link</p><div class="write-wrap indent"><div class="rules"><i></i><i></i></div><div class="write" id="w-gwsj" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:4em"></div></div></div><div class="box"><div class="box-head"><span class="badge site">NYT</span><b>New York Times</b><a class="sitelink" href="https://www.nytimes.com/section/world" target="_blank" rel="noopener">Open site</a></div><div class="checks"><label class="ck"><input type="checkbox" id="c-gnyt-0">World</label><label class="ck"><input type="checkbox" id="c-gnyt-1">Geopolitics</label><label class="ck"><input type="checkbox" id="c-gnyt-2">Trade</label></div><p class="indent note" style="margin-top:8px">Possible stories: headline and link</p><div class="write-wrap indent"><div class="rules"><i></i><i></i></div><div class="write" id="w-gnyt" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:4em"></div></div></div><div class="box"><div class="box-head"><span class="badge site">SEM</span><b>Semafor</b><a class="sitelink" href="https://www.semafor.com" target="_blank" rel="noopener">Open site</a></div><div class="checks"><label class="ck"><input type="checkbox" id="c-gsem-0">World</label><label class="ck"><input type="checkbox" id="c-gsem-1">Geopolitics</label><label class="ck"><input type="checkbox" id="c-gsem-2">Trade</label></div><p class="indent note" style="margin-top:8px">Possible stories: headline and link</p><div class="write-wrap indent"><div class="rules"><i></i><i></i></div><div class="write" id="w-gsem" contenteditable="true" role="textbox" aria-multiline="true" style="min-height:4em"></div></div></div><div class="box"><div class="box-head"><span class="badge">✓</span><b>Pick your stories</b></div><div class="indent">
+<div class="fillrow"><span class="n">1</span><input class="fill" id="i-p3-1" aria-label="Geopolitical pick 1" autocomplete="off"></div>
+<div class="fillrow"><span class="n">2</span><input class="fill" id="i-p3-2" aria-label="Geopolitical pick 2" autocomplete="off"></div></div></div><p class="note" style="color:var(--muted);font-size:10pt;margin:0">Stuck? Scroll through past geopolitical picks in the living doc.</p></div><footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">9</span><span class="rule"></span><span>Laurel Strategies</span></footer></section>
+<section class="page"><svg class="deco" viewBox="0 0 56 80" aria-hidden="true"><path d="M30 78 C26 56 26 34 33 8" stroke="#6E8F76" stroke-width="1.5" fill="none"/><g fill="#A8BEA9"><path d="M32 22 C23 19 19 10 21 3 C28 7 32 14 32 22Z"/><path d="M32 34 C41 31 46 24 44 15 C37 19 33 26 32 34Z"/><path d="M29 48 C20 45 15 38 16 29 C24 33 28 40 29 48Z"/><path d="M29 62 C38 59 42 52 41 43 C34 47 30 54 29 62Z"/></g></svg><div class="pg-body"><p class="kicker">team step</p><h2 class="pt">Share with your coworker</h2><svg class="under" viewBox="0 0 180 14" aria-hidden="true"><path d="M2 8 C40 2 70 12 110 7 S160 4 178 8" stroke="#B0975C" stroke-width="1.4" fill="none"/><circle cx="60" cy="6" r="3" fill="#A8BEA9"/><circle cx="130" cy="6" r="3" fill="#4B7659"/></svg>
+<p class="intro">Do pages 3–9 on your own, then settle the final list together in one Google Doc.</p>
+<div class="box"><div class="box-head"><span class="badge">1</span><b>Start this week's Google Doc</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-sh-1">Done</label></div>
+<p class="indent note">Only one of you does this. Create the doc, name it, then use Share in Google Docs to add the other person.</p>
+<div class="indent row-btns"><a class="btn sm" href="https://docs.new" target="_blank" rel="noopener">Create Google Doc</a><span class="subject" id="docTitle"><span class="subjDateCopy">[date]</span> Lord Abbett Round Up: Final Picks</span><button class="btn sm ghost no-print" data-copy="docTitle">Copy doc title</button></div></div>
+<div class="box"><div class="box-head"><span class="badge">2</span><b>Save the doc link here</b></div>
+<p class="indent note">Paste the link so it's saved with this week. Your coworker pastes it into theirs too.</p>
+<div class="indent fillrow"><input class="fill" id="i-doclink" aria-label="Google Doc link" autocomplete="off" placeholder="https://docs.google.com/..."><a class="btn sm ghost no-print" id="openDoc" href="#" target="_blank" rel="noopener" hidden>Open doc</a></div></div>
+<div class="box"><div class="box-head"><span class="badge">3</span><b>Add your picks to the doc</b></div>
+<div class="indent fillrow" style="max-width:22em"><span style="color:var(--forest);flex:none">Your name</span><input class="fill" id="i-myname" aria-label="Your name" autocomplete="off"></div>
+<pre class="compiled-body mypicks" id="myPicks"></pre>
+<div class="indent"><button class="btn sm no-print" data-copy="myPicks">Copy my picks</button></div></div>
+<div class="box"><div class="box-head"><span class="badge">4</span><b>Agree on the final list</b><label class="ck" style="margin-left:auto"><input type="checkbox" id="c-sh-4">Done</label></div>
+<p class="indent note">4 industry and 2 geopolitical stories. That list goes into the email in Part 4.</p></div>
+</div><footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">10</span><span class="rule"></span><span>Laurel Strategies</span></footer></section>
+<section class="page">
+  <svg class="deco" viewBox="0 0 56 80" aria-hidden="true"><path d="M30 78 C26 56 26 34 33 8" stroke="#6E8F76" stroke-width="1.5" fill="none"/><g fill="#A8BEA9"><path d="M32 22 C23 19 19 10 21 3 C28 7 32 14 32 22Z"/><path d="M32 34 C41 31 46 24 44 15 C37 19 33 26 32 34Z"/><path d="M29 48 C20 45 15 38 16 29 C24 33 28 40 29 48Z"/></g></svg>
+  <div class="pg-body">
+    <p class="kicker">part 4</p>
+    <h2 class="pt">Finalizing</h2>
+    <svg class="under" viewBox="0 0 180 14" aria-hidden="true"><path d="M2 8 C40 2 70 12 110 7 S160 4 178 8" stroke="#B0975C" stroke-width="1.4" fill="none"/><circle cx="60" cy="6" r="3" fill="#A8BEA9"/><circle cx="130" cy="6" r="3" fill="#4B7659"/></svg>
+    <p class="intro">Turn the scan into the email.</p>
+
+    <div class="box">
+      <div class="box-head"><span class="badge">1</span><b>Paste the agreed roundup into a new email</b></div>
+      <div class="checks"><label class="ck"><input type="checkbox" id="c-p4-1">Done</label></div>
+    </div>
+    <div class="box">
+      <div class="box-head"><span class="badge">2</span><b>Cmd + A, then choose "Normal" text</b></div>
+      <div class="checks"><label class="ck"><input type="checkbox" id="c-p4-2">Done</label></div>
+    </div>
+    <div class="box">
+      <div class="box-head"><span class="badge">3</span><b>Add the subject line</b></div>
+      <div class="indent"><span class="subject" id="subjectLine"><span id="subjDate">[date]</span> Lord Abbett Weekly News Round Up</span><button class="btn sm ghost no-print" data-copy="subjectLine">Copy</button></div>
+      <div class="checks" style="margin-top:8px"><label class="ck"><input type="checkbox" id="c-p4-3">Done</label></div>
+    </div>
+    <div class="box">
+      <div class="box-head"><span class="badge">4</span><b>PDF every story and attach it</b></div>
+      <p class="indent note">Open each link, Cmd + P, save as PDF.</p>
+      <div class="checks"><label class="ck"><input type="checkbox" id="c-p4-4">Done</label></div>
+    </div>
+    <div class="box">
+      <div class="box-head"><span class="badge">5</span><b>Send it</b></div>
+      <div class="recips indent">
+        <span>Amy</span><span>arogers@laurelstrategies.com</span>
+        <span>Jacob</span><span>jlink@laurelstrategies.com</span>
+        <span>Michael</span><span>mmelamed@laurelstrategies.com</span>
+      </div>
+      <span id="emails" hidden>arogers@laurelstrategies.com, jlink@laurelstrategies.com, mmelamed@laurelstrategies.com</span>
+      <div class="checks"><button class="btn sm ghost no-print" data-copy="emails">Copy all emails</button><label class="ck"><input type="checkbox" id="c-p4-5">Sent</label></div>
+    </div>
+  </div>
+  <footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">11</span><span class="rule"></span><span>Laurel Strategies</span></footer>
+</section>
+
+<!-- PAGE 6 -->
+<section class="page">
+  <svg class="deco" viewBox="0 0 56 80" aria-hidden="true" fill="none" stroke-linecap="round"><path d="M34 78 C32 58 29 34 37 6" stroke="#8C7A4E" stroke-width="1.6"/><path d="M36 26 C29 21 24 14 19 7" stroke="#B0975C" stroke-width="1.6"/><path d="M35 38 C43 33 48 26 52 17" stroke="#B0975C" stroke-width="1.5"/><path d="M33 50 C26 45 21 39 16 31" stroke="#CDBB8E" stroke-width="1.4"/></svg>
+  <div class="pg-body">
+    <p class="kicker">p.s.</p>
+    <h2 class="pt">More key words</h2>
+    <svg class="under" viewBox="0 0 180 14" aria-hidden="true"><path d="M2 8 C40 2 70 12 110 7 S160 4 178 8" stroke="#B0975C" stroke-width="1.4" fill="none"/><circle cx="60" cy="6" r="3" fill="#A8BEA9"/><circle cx="130" cy="6" r="3" fill="#4B7659"/></svg>
+    <p class="intro">For when the short list isn't turning anything up.</p>
+
+    <div class="box">
+      <div class="box-head"><span class="badge">A</span><b>"Asset management"</b></div>
+      <ul class="kw-list indent">
+        <li><b>Deal words:</b> acquire, buy, sale, deal, merger, stake, takeover</li>
+        <li><b>Money flows:</b> AUM, assets under management, inflows, outflows, redemptions, withdrawals</li>
+        <li><b>Big names:</b> BlackRock, Vanguard, Pimco, Franklin, Blackstone, KKR, Apollo, Blue Owl</li>
+        <li><b>Industry shifts:</b> consolidation, scale, fee cuts, private markets, wealth management</li>
+      </ul>
+    </div>
+    <div class="box">
+      <div class="box-head"><span class="badge">B</span><b>"Mutual funds"</b></div>
+      <ul class="kw-list indent">
+        <li>active vs. passive, stock-picking, beat benchmark, Morningstar</li>
+        <li>ETF, launches, conversion, share class</li>
+        <li>flows, outflows, fees, interval fund, retail investors, 401(k), target-date</li>
+        <li>SEC, rule, disclosure</li>
+      </ul>
+    </div>
+    <div class="box">
+      <div class="box-head"><span class="badge">C</span><b>"Capital markets"</b></div>
+      <ul class="kw-list indent">
+        <li><b>Rates:</b> Treasuries, yields, 10-year, 30-year, bond selloff, Fed, rate hike, Warsh, buyback</li>
+        <li><b>Credit:</b> spreads, high yield, junk, leveraged loans, private credit, default, bond sale, issuance</li>
+        <li><b>Munis:</b> municipal, muni</li>
+        <li><b>Deals:</b> IPO, listing, record deal</li>
+      </ul>
+    </div>
+    <div class="box" style="background:#F7F2E4;border-left-color:var(--gold)">
+      <div class="box-head"><span class="badge" style="background:var(--gold)">★</span><b>Probably a keeper, in any search</b></div>
+      <ul class="kw-list indent">
+        <li>record, biggest, first since, highest/lowest since</li>
+        <li>a dollar figure: $4bn, $30 billion</li>
+        <li>curbs, halts, limits, warns</li>
+      </ul>
+    </div>
+  </div>
+  <footer class="pg-foot"><span>Lord Abbett Weekly News Round Up</span><span class="rule"></span><span class="pg-num">12</span><span class="rule"></span><span>Laurel Strategies</span></footer>
+</section>
+
+</main>
+
+<script>
+const KEY = "la-roundup-worksheet-v2";
+let st = {};
+try { st = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { st = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+const fields = () => document.querySelectorAll("input[type=checkbox], input.fill, .write");
+
+fields().forEach(el => {
+  const v = st[el.id];
+  if (el.type === "checkbox") { el.checked = !!v; el.addEventListener("change", () => { st[el.id] = el.checked; save(); }); }
+  else if (el.tagName === "INPUT") { if (v) el.value = v; el.addEventListener("input", () => { st[el.id] = el.value; save(); if (el.id === "weekDate") subj(); }); }
+  else { if (v) el.innerText = v; el.addEventListener("input", () => { st[el.id] = el.innerText; save(); }); }
+});
+
+function subj() {
+  const v = document.getElementById("weekDate").value, out = document.getElementById("subjDate");
+  if (!v) { out.textContent = "[date]"; return; }
+  const [y, m, d] = v.split("-").map(Number);
+  out.textContent = m + "/" + d + "/" + String(y).slice(2);
+}
+subj();
+
+document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", async () => {
+  const t = document.getElementById(b.dataset.copy).textContent.trim(), lbl = b.textContent;
+  try { await navigator.clipboard.writeText(t); b.textContent = "Copied"; } catch (e) { b.textContent = "Copy manually"; }
+  setTimeout(() => b.textContent = lbl, 1400);
+}));
+
+
+const SITES = [["bbg","Bloomberg"],["ft","Financial Times"],["wsj","Wall Street Journal"],["nyt","New York Times"]];
+function compile() {
+  const seen = new Set(), out = [];
+  SITES.forEach(([c, name]) => ["am","mf","cm"].forEach(t => {
+    const el = document.getElementById("w-" + c + "-" + t);
+    if (!el) return;
+    el.innerText.split("\n").map(l => l.trim().replace(/^[-•*]\s*/, "")).filter(Boolean).forEach(l => {
+      const k = l.toLowerCase();
+      if (seen.has(k)) return; seen.add(k);
+      out.push("- " + name + ": " + l);
+    });
+  }));
+  document.getElementById("compiledList").textContent = out.join("\n");
+  document.getElementById("compiledCount").textContent = out.length ? out.length + (out.length === 1 ? " article" : " articles") : "";
+  return out;
+}
+compile();
+document.querySelectorAll(".write").forEach(w => w.addEventListener("input", compile));
+document.getElementById("copyAll").addEventListener("click", async e => {
+  const b = e.currentTarget, lbl = b.textContent, list = compile();
+  const text = document.getElementById("aiPrompt").textContent.trim() + "\n\n" + list.join("\n");
+  try { await navigator.clipboard.writeText(text); b.textContent = list.length ? "Copied" : "Copied (list is empty)"; } catch (err) { b.textContent = "Copy manually"; }
+  setTimeout(() => b.textContent = lbl, 1600);
+});
+
+
+/* ---- weekly archive (this browser only) ---- */
+const AKEY = "la-roundup-archive-v1";
+const loadArch = () => { try { return JSON.parse(localStorage.getItem(AKEY)) || []; } catch (e) { return []; } };
+const saveArch = a => { try { localStorage.setItem(AKEY, JSON.stringify(a)); return true; } catch (e) { return false; } };
+function toast(msg) { const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 2200); }
+function fmtWeek(v) { if (!v) return "No date set"; const [y, m, d] = v.split("-").map(Number); return m + "/" + d + "/" + String(y).slice(2); }
+function hasWork() { return Object.values(st).some(v => v === true || (typeof v === "string" && v.trim())); }
+function clearAll() {
+  st = {}; save();
+  fields().forEach(el => { if (el.type === "checkbox") el.checked = false; else if (el.tagName === "INPUT") el.value = ""; else el.innerText = ""; });
+  subj(); compile();
+}
+function applyState(state) {
+  st = JSON.parse(JSON.stringify(state || {})); save();
+  fields().forEach(el => { const v = st[el.id];
+    if (el.type === "checkbox") el.checked = !!v; else if (el.tagName === "INPUT") el.value = v || ""; else el.innerText = v || ""; });
+  subj(); compile();
+}
+document.getElementById("saveWeek").onclick = () => {
+  if (!hasWork()) { toast("Nothing to save yet"); return; }
+  const week = st.weekDate || "";
+  if (!confirm("Save the week of " + fmtWeek(week) + " and clear the worksheet for next week?")) return;
+  const arch = loadArch().filter(w => !(week && w.week === week));
+  arch.unshift({ id: Date.now().toString(36), week, savedAt: new Date().toISOString(), state: JSON.parse(JSON.stringify(st)) });
+  if (!saveArch(arch)) { toast("Couldn't save. Your work is still here."); return; }
+  clearAll();
+  toast("Saved. Find it under Past weeks.");
+};
+function renderPast() {
+  const box = document.getElementById("pastList"), arch = loadArch();
+  box.innerHTML = "";
+  if (!arch.length) { box.innerHTML = '<p class="past-empty">No saved weeks yet. Use "Save this week and start fresh" when you finish a roundup.</p>'; return; }
+  arch.forEach(w => {
+    const el = document.createElement("div"); el.className = "wk";
+    const ind = [1,2,3,4].map(i => (w.state["i-p2-" + i] || "").trim()).filter(Boolean);
+    const geo = [1,2].map(i => (w.state["i-p3-" + i] || "").trim()).filter(Boolean);
+    const list = (arr, n) => { if (!arr.length) { const p = document.createElement("p"); p.className = "empty"; p.textContent = "None written"; return p; } const ol = document.createElement("ol"); arr.forEach(t => { const li = document.createElement("li"); li.textContent = t; ol.appendChild(li); }); return ol; };
+    const top = document.createElement("div"); top.className = "wk-top";
+    const b = document.createElement("b"); b.textContent = "Week of " + fmtWeek(w.week);
+    const sp = document.createElement("span"); sp.textContent = "Saved " + new Date(w.savedAt).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+    top.append(b, sp);
+    const h1 = document.createElement("h4"); h1.textContent = "industry news";
+    const h2 = document.createElement("h4"); h2.textContent = "geopolitical news";
+    const btns = document.createElement("div"); btns.className = "wk-btns";
+    const open = document.createElement("button"); open.className = "btn sm"; open.textContent = "Open in worksheet";
+    open.onclick = () => { if (hasWork() && !confirm("This replaces what's on the worksheet now. Save it first if you need it. Continue?")) return; applyState(w.state); document.getElementById("pastDlg").close(); toast("Opened week of " + fmtWeek(w.week)); };
+    const copy = document.createElement("button"); copy.className = "btn sm ghost"; copy.textContent = "Copy picks";
+    copy.onclick = async () => { const t = "Industry news\n" + ind.map((x, i) => (i + 1) + ". " + x).join("\n") + "\n\nGeopolitical news\n" + geo.map((x, i) => (i + 1) + ". " + x).join("\n"); try { await navigator.clipboard.writeText(t); copy.textContent = "Copied"; } catch (e) { copy.textContent = "Copy manually"; } setTimeout(() => copy.textContent = "Copy picks", 1400); };
+    const del = document.createElement("button"); del.className = "btn sm ghost"; del.textContent = "Delete";
+    del.onclick = () => { if (!confirm("Delete the week of " + fmtWeek(w.week) + "? This can't be undone.")) return; saveArch(loadArch().filter(x => x.id !== w.id)); renderPast(); };
+    const dl = (w.state["i-doclink"] || "").trim();
+    if (/^https?:\/\//.test(dl)) { const a = document.createElement("a"); a.className = "btn sm ghost"; a.href = dl; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Open Google Doc"; btns.append(a); }
+    btns.append(open, copy, del);
+    el.append(top, h1, list(ind), h2, list(geo), btns);
+    box.appendChild(el);
+  });
+}
+document.getElementById("openPast").onclick = () => { renderPast(); document.getElementById("pastDlg").showModal(); };
+document.getElementById("closePast").onclick = () => document.getElementById("pastDlg").close();
+
+
+function myPicks() {
+  const name = (st["i-myname"] || "").trim();
+  const ind = [1,2,3,4].map(i => (st["i-p2-" + i] || "").trim()).filter(Boolean);
+  const geo = [1,2].map(i => (st["i-p3-" + i] || "").trim()).filter(Boolean);
+  const lines = [(name ? name + "'s picks" : "My picks") + (st.weekDate ? ", week of " + fmtWeek(st.weekDate) : ""), "", "Industry news"];
+  (ind.length ? ind : ["(none yet)"]).forEach((x, i) => lines.push(ind.length ? (i + 1) + ". " + x : x));
+  lines.push("", "Geopolitical news");
+  (geo.length ? geo : ["(none yet)"]).forEach((x, i) => lines.push(geo.length ? (i + 1) + ". " + x : x));
+  document.getElementById("myPicks").textContent = (ind.length || geo.length) ? lines.join("\n") : "";
+  document.querySelectorAll(".subjDateCopy").forEach(e => e.textContent = st.weekDate ? fmtWeek(st.weekDate) : "[date]");
+  const link = (st["i-doclink"] || "").trim(), a = document.getElementById("openDoc");
+  if (/^https?:\/\//.test(link)) { a.href = link; a.hidden = false; } else { a.hidden = true; }
+}
+document.querySelectorAll("input.fill").forEach(el => el.addEventListener("input", myPicks));
+const _compile = compile; compile = function () { const r = _compile(); myPicks(); return r; };
+myPicks();
+
+document.getElementById("print").onclick = () => window.print();
+document.getElementById("resetAll").onclick = () => { if (confirm("Clear everything without saving?")) clearAll(); };
+
+function fit() { const w = document.documentElement.clientWidth; document.querySelector(".book").style.setProperty("--z", Math.min(1, (w - 16) / 818)); }
+fit(); addEventListener("resize", fit);
+</script>
+</body></html>
