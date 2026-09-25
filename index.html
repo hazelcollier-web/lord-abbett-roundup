@@ -24,10 +24,10 @@
   .btn:focus-visible, input:focus-visible, .write:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
   .book { padding: 12px 0 48px; }
-  .page { width: 8.5in; height: 11in; margin: 0 auto 28px; background: var(--paper); border: 1px solid var(--line); position: relative; display: flex; flex-direction: column; padding: .85in .9in .5in; overflow: hidden; }
+  .page { width: 8.5in; min-height: 11in; margin: 0 auto 28px; background: var(--paper); border: 1px solid var(--line); position: relative; display: flex; flex-direction: column; padding: .85in .9in .5in; overflow: visible; }
   .page::before { content: ""; position: absolute; inset: .32in; border: 1px solid var(--gold-soft); border-radius: 2px; pointer-events: none; }
   .deco { position: absolute; top: .44in; right: .5in; width: 56px; height: 80px; pointer-events: none; }
-  .pg-body { flex: 1; overflow: hidden; position: relative; }
+  .pg-body { flex: 1; overflow: visible; position: relative; }
   .pg-foot { display: flex; justify-content: center; align-items: center; gap: 14px; padding-top: 10px; color: var(--muted); font-size: 9pt; font-style: italic; }
   .pg-foot .rule { flex: 1; height: 1px; background: var(--line); }
   .pg-num { font-style: normal; font-size: 12pt; color: var(--forest); display: inline-grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--green-soft); border-radius: 3px; }
@@ -122,8 +122,8 @@
   input.fill.d { flex: none; width: 11em; }
 
   .write-wrap { position: relative; }
-  .rules { position: absolute; inset: 0; display: grid; grid-auto-rows: 2em; pointer-events: none; }
-  .rules i { border-bottom: 1.5px solid var(--gold-soft); }
+  .rules { position: absolute; inset: 0; pointer-events: none; font-size: 10.5pt; background: repeating-linear-gradient(to bottom, transparent 0, transparent calc(2em - 1.5px), var(--gold-soft) calc(2em - 1.5px), var(--gold-soft) 2em); }
+  .rules i { display: none; }
   .write { position: relative; font-style: italic; color: var(--forest-mid); font-size: 10.5pt; line-height: 2em; padding: 0 4px; outline: none; overflow: hidden; word-wrap: break-word; white-space: pre-wrap; }
   .write:focus { background-color: rgba(220,231,217,.45); }
 
@@ -396,7 +396,15 @@ fields().forEach(el => {
   const v = st[el.id];
   if (el.type === "checkbox") { el.checked = !!v; el.addEventListener("change", () => { st[el.id] = el.checked; save(); }); }
   else if (el.tagName === "INPUT") { if (v) el.value = v; el.addEventListener("input", () => { st[el.id] = el.value; save(); if (el.id === "weekDate") subj(); }); }
-  else { if (v) el.innerText = v; el.addEventListener("input", () => { st[el.id] = el.innerText; save(); }); }
+  else {
+    if (v) el.innerText = v;
+    el.addEventListener("input", () => { st[el.id] = el.innerText; save(); });
+    el.addEventListener("paste", e => {
+      e.preventDefault();
+      const t = (e.clipboardData || window.clipboardData).getData("text/plain");
+      document.execCommand("insertText", false, t);
+    });
+  }
 });
 
 function subj() {
