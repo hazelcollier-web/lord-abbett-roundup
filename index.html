@@ -204,7 +204,7 @@
 <section class="page"><svg class="deco" viewBox="0 0 56 80" aria-hidden="true"><path d="M30 78 C26 56 26 34 33 8" stroke="#6E8F76" stroke-width="1.5" fill="none"/><g fill="#A8BEA9"><path d="M32 22 C23 19 19 10 21 3 C28 7 32 14 32 22Z"/><path d="M32 34 C41 31 46 24 44 15 C37 19 33 26 32 34Z"/><path d="M29 48 C20 45 15 38 16 29 C24 33 28 40 29 48Z"/><path d="M29 62 C38 59 42 52 41 43 C34 47 30 54 29 62Z"/></g></svg><div class="pg-body"><p class="kicker">part 2</p><h2 class="pt">Industry news</h2><svg class="under" viewBox="0 0 180 14" aria-hidden="true"><path d="M2 8 C40 2 70 12 110 7 S160 4 178 8" stroke="#B0975C" stroke-width="1.4" fill="none"/><circle cx="60" cy="6" r="3" fill="#A8BEA9"/><circle cx="130" cy="6" r="3" fill="#4B7659"/></svg>
 <p class="intro">Goal: 4 stories on the week's most significant developments in asset management, mutual funds, or capital markets.</p>
 <div class="box autofill no-print"><div class="box-head"><span class="badge">&#9733;</span><b>Fill this week automatically</b></div>
-<p class="indent">Searches all four sites for the three phrases (past week), scores headlines by the key words, and fills in the top 6 for each search on pages 3&ndash;6. The full list on page 7 updates too.</p>
+<p class="indent">Searches all four sites for the three phrases (past week), scores headlines by the key words, and fills in the top 6 for each search on pages 3&ndash;6. Run it again any day this week: it keeps your list, swaps in better or newer headlines (marked NEW), and won&rsquo;t bring back anything you deleted. Lines you type yourself are never touched.</p>
 <div class="indent row-btns"><button class="btn" id="autoFill">Fill this week</button><span class="note" id="autoStatus"></span></div></div>
 <div class="box"><div class="box-head"><span class="badge">1</span><b>How each site section works</b></div>
 <p class="indent">Each site gets its own page, with a section for each search. Search the phrase, check it off, then write down anything promising.</p></div>
@@ -433,7 +433,7 @@ function compile() {
   SITES.forEach(([c, name]) => ["am","mf","cm"].forEach(t => {
     const el = document.getElementById("w-" + c + "-" + t);
     if (!el) return;
-    el.innerText.split("\n").map(l => l.trim().replace(/^[-•*]\s*/, "")).filter(Boolean).forEach(l => {
+    el.innerText.split("\n").map(l => l.trim().replace(/^[-•*]\s*/, "").replace(/^NEW · /, "")).filter(Boolean).forEach(l => {
       const k = l.toLowerCase();
       if (seen.has(k)) return; seen.add(k);
       out.push("- " + name + ": " + l);
@@ -453,46 +453,85 @@ document.getElementById("copyAll").addEventListener("click", async e => {
 });
 
 
-/* ---- auto-fill industry news ---- */
+/* ---- auto-fill industry news (re-runnable: keeps your list, swaps in better/newer headlines) ---- */
 function shortDate(iso) {
   if (!iso) return "";
   const d = new Date(iso);
   return isNaN(d) ? "" : d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
+const AUTO_N = 6;
+function autoLine(it, isNew) {
+  const d = shortDate(it.date);
+  return "- " + (isNew ? "NEW · " : "") + it.title + (d ? " (" + d + ")" : "") + " " + it.link;
+}
+function autoLabel() {
+  const a = st._auto, btn = document.getElementById("autoFill"), info = document.getElementById("autoStatus");
+  if (a && a.lastRun) {
+    btn.textContent = "Check for updates";
+    const d = new Date(a.lastRun);
+    if (!info.dataset.busy) info.textContent = "Last checked " + d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + ", " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) + ".";
+  } else { btn.textContent = "Fill this week"; if (!info.dataset.busy) info.textContent = ""; }
+}
+autoLabel();
 document.getElementById("autoFill").addEventListener("click", async e => {
   const btn = e.currentTarget, status = document.getElementById("autoStatus");
   const boxes = [];
   SITES.forEach(([c]) => ["am","mf","cm"].forEach(t => boxes.push(c + "-" + t)));
-  const filled = boxes.filter(k => { const el = document.getElementById("w-" + k); return el && el.innerText.trim(); });
-  if (filled.length && !confirm("Some search boxes on pages 3–6 already have notes. Replace them with this week's results?")) return;
-  btn.disabled = true; status.textContent = "Searching… this takes about 10 seconds.";
+  btn.disabled = true; status.dataset.busy = "1"; status.textContent = "Searching… this takes about 10 seconds.";
   try {
     const r = await fetch("/api/scan", { cache: "no-store" });
     if (!r.ok) throw new Error("HTTP " + r.status);
     const data = await r.json();
-    let total = 0; const failed = [];
+    const auto = st._auto || { items: {}, dismissed: {} };
+    auto.items = auto.items || {}; auto.dismissed = auto.dismissed || {};
+    let added = 0, swapped = 0; const failed = [];
     boxes.forEach(k => {
       const res = data.results[k], el = document.getElementById("w-" + k);
       if (!el || !res) return;
       if (!res.ok) { failed.push(k); return; }
-      const lines = res.items.map(it => {
-        const d = shortDate(it.date);
-        return "- " + it.title + (d ? " (" + d + ")" : "") + " " + it.link;
-      });
-      el.innerText = lines.length ? lines.join("\n") : "(nothing found this week)";
+      const prev = auto.items[k] || [];
+      const lines = el.innerText.split("\n").map(l => l.trim()).filter(Boolean);
+      const dismissed = new Set(auto.dismissed[k] || []);
+      // What's still in the box from earlier runs, and what you deleted.
+      const kept = prev.filter(it => lines.some(l => l.includes(it.link)));
+      prev.forEach(it => { if (!kept.includes(it)) dismissed.add(it.link); });
+      // Anything you typed yourself (no link from an earlier run) stays at the top, untouched.
+      const manual = lines.filter(l => l !== "(nothing found this week)" && !prev.some(it => l.includes(it.link)));
+      const keptLinks = new Set(kept.map(it => it.link)), keptTitles = new Set(kept.map(it => it.title.toLowerCase()));
+      const fresh = res.items.filter(it => !dismissed.has(it.link) && !keptLinks.has(it.link) && !keptTitles.has(it.title.toLowerCase()));
+      const top = kept.concat(fresh)
+        .sort((a, b) => (b.score || 0) - (a.score || 0) || (b.date || "").localeCompare(a.date || ""))
+        .slice(0, AUTO_N);
+      const newOnes = top.filter(it => !keptLinks.has(it.link));
+      const firstRun = !prev.length;
+      if (!firstRun) { added += newOnes.length; swapped += kept.filter(it => !top.includes(it)).length; }
+      else added += top.length;
+      auto.items[k] = top;
+      auto.dismissed[k] = [...dismissed];
+      const out = manual.concat(top.map(it => autoLine(it, !firstRun && newOnes.includes(it))));
+      el.innerText = out.length ? out.join("\n") : "(nothing found this week)";
       st[el.id] = el.innerText;
       const ck = document.getElementById("c-" + k);
       if (ck) { ck.checked = true; st[ck.id] = true; }
-      total += res.items.length;
     });
-    save(); compile();
-    status.textContent = "Done: " + total + " headlines added." + (failed.length ? " " + failed.length + " search(es) failed — try again or fill those by hand." : "");
+    const wasFirst = !(st._auto && st._auto.lastRun);
+    auto.lastRun = new Date().toISOString();
+    st._auto = auto; save(); compile();
+    delete status.dataset.busy; autoLabel();
+    let msg = wasFirst ? "Done: " + added + " headlines added."
+      : (added ? added + " new headline" + (added === 1 ? "" : "s") + " (marked NEW), " + swapped + " swapped out." : "No changes — your list is still the top of the week.");
+    if (failed.length) msg += " " + failed.length + " search(es) failed — try again.";
+    status.textContent = msg;
   } catch (err) {
+    delete status.dataset.busy;
     status.textContent = "Couldn't reach the search service (" + err.message + "). Try again in a minute.";
   } finally {
     btn.disabled = false;
   }
 });
+// Keep the button label right after "Save this week", "Clear", or reopening a past week.
+["saveWeek","resetAll"].forEach(id => { const b = document.getElementById(id); if (b) b.addEventListener("click", () => setTimeout(autoLabel, 50)); });
+document.getElementById("pastList").addEventListener("click", () => setTimeout(autoLabel, 50));
 
 
 /* ---- weekly archive (this browser only) ---- */
