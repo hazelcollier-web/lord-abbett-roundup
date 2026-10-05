@@ -19,6 +19,8 @@
   body { margin: 0; background: var(--wall); color: var(--ink); font-family: Georgia, "Times New Roman", serif; font-size: 11pt; line-height: 1.55; -webkit-font-smoothing: antialiased; }
   .toolbar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 18px 12px 6px; }
   .btn { font: inherit; font-size: 10pt; cursor: pointer; border-radius: 3px; padding: 6px 18px; border: 1px solid var(--forest-mid); background: var(--forest-mid); color: var(--paper); text-decoration: none; display: inline-block; }
+  .btn:disabled { opacity: .6; cursor: wait; }
+  .autofill .row-btns { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .btn.ghost { background: transparent; color: var(--forest-mid); }
   .btn.sm { font-size: 9pt; padding: 3px 14px; }
   .btn:focus-visible, input:focus-visible, .write:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -201,6 +203,9 @@
 <!-- PAGE 2 -->
 <section class="page"><svg class="deco" viewBox="0 0 56 80" aria-hidden="true"><path d="M30 78 C26 56 26 34 33 8" stroke="#6E8F76" stroke-width="1.5" fill="none"/><g fill="#A8BEA9"><path d="M32 22 C23 19 19 10 21 3 C28 7 32 14 32 22Z"/><path d="M32 34 C41 31 46 24 44 15 C37 19 33 26 32 34Z"/><path d="M29 48 C20 45 15 38 16 29 C24 33 28 40 29 48Z"/><path d="M29 62 C38 59 42 52 41 43 C34 47 30 54 29 62Z"/></g></svg><div class="pg-body"><p class="kicker">part 2</p><h2 class="pt">Industry news</h2><svg class="under" viewBox="0 0 180 14" aria-hidden="true"><path d="M2 8 C40 2 70 12 110 7 S160 4 178 8" stroke="#B0975C" stroke-width="1.4" fill="none"/><circle cx="60" cy="6" r="3" fill="#A8BEA9"/><circle cx="130" cy="6" r="3" fill="#4B7659"/></svg>
 <p class="intro">Goal: 4 stories on the week's most significant developments in asset management, mutual funds, or capital markets.</p>
+<div class="box autofill no-print"><div class="box-head"><span class="badge">&#9733;</span><b>Fill this week automatically</b></div>
+<p class="indent">Searches all four sites for the three phrases (past week), scores headlines by the key words, and fills in the top 6 for each search on pages 3&ndash;6. The full list on page 7 updates too.</p>
+<div class="indent row-btns"><button class="btn" id="autoFill">Fill this week</button><span class="note" id="autoStatus"></span></div></div>
 <div class="box"><div class="box-head"><span class="badge">1</span><b>How each site section works</b></div>
 <p class="indent">Each site gets its own page, with a section for each search. Search the phrase, check it off, then write down anything promising.</p></div>
 <div class="box">
@@ -445,6 +450,48 @@ document.getElementById("copyAll").addEventListener("click", async e => {
   const text = document.getElementById("aiPrompt").textContent.trim() + "\n\n" + list.join("\n");
   try { await navigator.clipboard.writeText(text); b.textContent = list.length ? "Copied" : "Copied (list is empty)"; } catch (err) { b.textContent = "Copy manually"; }
   setTimeout(() => b.textContent = lbl, 1600);
+});
+
+
+/* ---- auto-fill industry news ---- */
+function shortDate(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return isNaN(d) ? "" : d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+document.getElementById("autoFill").addEventListener("click", async e => {
+  const btn = e.currentTarget, status = document.getElementById("autoStatus");
+  const boxes = [];
+  SITES.forEach(([c]) => ["am","mf","cm"].forEach(t => boxes.push(c + "-" + t)));
+  const filled = boxes.filter(k => { const el = document.getElementById("w-" + k); return el && el.innerText.trim(); });
+  if (filled.length && !confirm("Some search boxes on pages 3–6 already have notes. Replace them with this week's results?")) return;
+  btn.disabled = true; status.textContent = "Searching… this takes about 10 seconds.";
+  try {
+    const r = await fetch("/api/scan", { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const data = await r.json();
+    let total = 0; const failed = [];
+    boxes.forEach(k => {
+      const res = data.results[k], el = document.getElementById("w-" + k);
+      if (!el || !res) return;
+      if (!res.ok) { failed.push(k); return; }
+      const lines = res.items.map(it => {
+        const d = shortDate(it.date);
+        return "- " + it.title + (d ? " (" + d + ")" : "") + " " + it.link;
+      });
+      el.innerText = lines.length ? lines.join("\n") : "(nothing found this week)";
+      st[el.id] = el.innerText;
+      const ck = document.getElementById("c-" + k);
+      if (ck) { ck.checked = true; st[ck.id] = true; }
+      total += res.items.length;
+    });
+    save(); compile();
+    status.textContent = "Done: " + total + " headlines added." + (failed.length ? " " + failed.length + " search(es) failed — try again or fill those by hand." : "");
+  } catch (err) {
+    status.textContent = "Couldn't reach the search service (" + err.message + "). Try again in a minute.";
+  } finally {
+    btn.disabled = false;
+  }
 });
 
 
